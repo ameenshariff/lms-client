@@ -1,0 +1,44 @@
+
+<nav>
+  <button (click)="logOut()">Logout</button>
+</nav>
+<div>
+  <h3>ISSUE</h3>
+</div>
+<form (ngSubmit)="onIssue()" #bookForm="ngForm" class="form">
+  <table>
+    <tr>
+      <th>User Id</th>
+      <td><input class="form-control" type="text" id="userId" name="userId" required #userId="ngModel"
+        [(ngModel)]="issueDetails.userId" ></td>
+    </tr>
+
+    <tr>
+        <th>Id/ISBN</th>
+      <td><input class="form-control" type="text" value="{{iId}}" required disabled></td>
+    </tr>
+
+    <!-- <tr>
+      <th>Issue Date</th>
+      <td><input class="form-control" type="text"  id="dateOfIssue" value="{{date | date:'yyyy-MM-dd'}}" name="dateOfIssue" required #dateOfIssue="ngModel"
+        [(ngModel)]="issueDetails.dateOfIssue"></td>
+    </tr> -->
+
+    <tr>
+        <th>Issue Date</th>
+        <td> <input class="form-control" type="text" value="{{date | date:'yyyy-MM-dd'}}" name="dateOfIssue" id="dateOfIssue"></td>
+     
+    </tr>
+
+    <tr>
+      <th>Return Date</th>
+      <td><input class="form-control" type="date" id="dateOfReturn"  name="dateOfReturn" required #dateOfReturn="ngModel"
+        [(ngModel)]="issueDetails.dateOfReturn"></td>
+    </tr>
+
+  </table>
+  <button class="btn btn-info" type="submit" [disabled]="!bookForm.form.valid">ISSUE</button>
+
+</form>
+
+<p id="msg"></p> 

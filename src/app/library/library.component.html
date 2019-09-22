@@ -1,0 +1,457 @@
+<nav>
+  <button (click)="logOut()">Logout</button>
+</nav>
+<h1 align="center">Library Management</h1>
+<tabs>
+  <tab tabTitle="Books">
+    <h3 align="center">BOOKS SECTION</h3>
+
+    <tabs>
+      <tab tabTitle="Show Books">
+        <table class="table">
+          <tr>
+            <th>Index</th>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publication</th>
+            <th colspan="3">Action</th>
+
+          </tr>
+
+          <tr *ngFor="let bookList of books;let i=index">
+            <ng-container *ngIf="bookList.isIssued==false">
+              <td>{{i+1}}</td>
+              <td>{{bookList.id}}</td>
+              <td>{{bookList.title}}</td>
+              <td>{{bookList.author}}</td>
+              <td>{{bookList.publication}}</td>
+              <td><button (click)="editBook(bookList)" class="btn btn-info">Edit</button></td>
+              <td><button (click)="deleteBook(bookList.id)" class="btn btn-danger">Delete</button></td>
+              <td><button (click)="issue(bookList)"  class="btn btn-primary">Issue</button></td>
+            </ng-container>
+          </tr>
+
+
+        </table>
+        <button (click)="refresh()" class="btn btn-success">Refresh</button>
+
+
+      </tab>
+
+      <table border="2" hidden id="editing" class="table">
+        <tr>
+          <th>Title</th>
+          <td><input type="text" value="{{bookToBeEdit.title}}" name="title" #title="ngModel"
+              [(ngModel)]="bookToBeEdit.title"></td>
+          <!-- <td><p id="title"></p></td> -->
+        </tr>
+
+        <tr>
+          <th>Author</th>
+          <td><input type="text" value="{{bookToBeEdit.author}}" name="author" #author="ngModel"
+              [(ngModel)]="bookToBeEdit.author"></td>
+        </tr>
+
+        <tr>
+          <th>Publication</th>
+          <td><input type="text" value="{{bookToBeEdit.publication}}" name="publication" #publication="ngModel"
+              [(ngModel)]="bookToBeEdit.publication"></td>
+        </tr>
+
+        <!-- <tr>
+          <th>No Of Copies</th>
+          <td><input type="number" min="1" value="{{bookToBeEdit.noOfCopies}}" name="noOfCopies" #noOfCopies="ngModel"
+              [(ngModel)]="bookToBeEdit.noOfCopies"></td>
+        </tr> -->
+
+        <tr>
+          <th colspan="2"><button (click)="updateBook()" class="btn btn-warning">Update</button>
+            &nbsp; <button (click)=hide() class="btn btn-light">Hide</button></th>
+
+        </tr>
+
+      </table>
+
+
+
+
+
+
+
+      <tab tabTitle="Return Book(s)">
+
+        <div>User Id:&nbsp;<input type="text" id="userId" name="userId" required #userId="ngModel" [(ngModel)]="returnDetails.userId">
+          &nbsp;
+          <button class="btn btn-info" type="button"  (click)="getBooks()">Get Books</button>
+        </div>
+
+
+        <div >
+          <table class="table">
+              <tr>
+                  <th>Index</th>
+                  <th>ISBN</th>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Publication</th>
+                  <th>Action</th>
+      
+                </tr>
+            <tr *ngFor="let bookList of booksIssued;let i=index">
+                <td>{{i+1}}</td>
+                <td>{{bookList.id}}</td>
+                <td>{{bookList.title}}</td>
+                <td>{{bookList.author}}</td>
+                <td>{{bookList.publication}}</td>
+                <td><button type="button" (click)="bookReturn(bookList)">Return</button></td>
+                
+            </tr>
+            
+          </table>
+        </div>
+
+
+        <!-- <tr>
+              <th>Id/ISBN</th>
+              <td><input class="form-control" type="text" id="issueId" name="issueId" required #issueId="ngModel"
+                [(ngModel)]="returnDetails.issueId"></td>
+            </tr>
+
+            <tr>
+              <th>Return Date</th>
+              <td><input class="form-control" type="date" id="dateOfReturn" name="dateOfReturn" required #dateOfReturn="ngModel"
+                [(ngModel)]="returnDetails.dateOfReturn"></td>
+            </tr> -->
+
+
+
+      </tab>
+
+      <tab tabTitle="Add Book">
+
+        <form (ngSubmit)="onSubmitBook()" #bookForm="ngForm">
+          <table>
+
+            <tr>
+              <th>Author</th>
+              <td><input type="text" id="author" maxlength="20" name="author" #author="ngModel"
+                  [(ngModel)]="book.author" class="form-control" required></td>
+            </tr>
+
+            <tr>
+              <th>Title</th>
+              <td><input type="text" id="title" maxlength="30" name="title" #title="ngModel" [(ngModel)]="book.title"
+                  class="form-control" required></td>
+            </tr>
+
+            <tr>
+              <th>Publication</th>
+              <td><input type="text" id="publication" maxlength="20" name="publication" #publication="ngModel"
+                  [(ngModel)]="book.publication" class="form-control" required></td>
+            </tr>
+
+            <!-- <tr>
+              <th>No Of Copies</th>
+              <td><input type="number" min="1" id="noOfCopies" name="noOfCopies" #noOfCopies="ngModel"
+                  [(ngModel)]="book.noOfCopies" class="form-control" required></td>
+            </tr> -->
+
+          </table>
+          <button class="btn btn-info" type="submit" [disabled]="!bookForm.form.valid">Add Book</button>
+
+        </form>
+
+      </tab>
+
+    </tabs>
+  </tab>
+  <tab tabTitle="DVD/CD">
+    <h3 align="center">DVD/CD SECTION</h3>
+
+    <tabs>
+      <tab tabTitle="Show DVD/CD">
+        <table class="table">
+          <tr>
+            <th>Index</th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publication</th>
+            <th colspan="2">Action</th>
+
+
+          <tr *ngFor="let dvdCdList of dvds;let i=index">
+              <ng-container *ngIf="dvdCdList.isIssued==false">
+                <td>{{i+1}}</td>
+            <td>{{dvdCdList.id}}</td>
+            <td>{{dvdCdList.title}}</td>
+            <td>{{dvdCdList.author}}</td>
+            <td>{{dvdCdList.publication}}</td>
+            <td><button (click)="editDvdCd(dvdCdList)" class="btn btn-info">Edit</button></td>
+            <td><button (click)="deleteDvdCd(dvdCdList.id)" class="btn btn-danger">Delete</button></td>
+            <td><button (click)="issue(dvdCdList)" class="btn btn-primary">Issue</button></td>
+              </ng-container>
+          </tr>
+
+        </table>
+        <button (click)="refresh()">Refresh</button>
+      </tab>
+
+      <table border="2" hidden id="editingDvdCd" class="table">
+        <tr>
+          <th>Title</th>
+          <td><input type="text" value="{{dvdToBeEdit.title}}" name="title" #title="ngModel"
+              [(ngModel)]="dvdToBeEdit.title"></td>
+        </tr>
+
+        <tr>
+          <th>Author</th>
+          <td><input type="text" value="{{dvdToBeEdit.author}}" name="author" #author="ngModel"
+              [(ngModel)]="dvdToBeEdit.author"></td>
+        </tr>
+
+        <tr>
+          <th>Publication</th>
+          <td><input type="text" value="{{dvdToBeEdit.publication}}" name="publication" #publication="ngModel"
+              [(ngModel)]="dvdToBeEdit.publication"></td>
+        </tr>
+
+        <!-- <tr>
+          <th>No Of Copies</th>
+          <td><input type="number" min="1" value="{{dvdToBeEdit.noOfCopies}}" name="noOfCopies" #noOfCopies="ngModel"
+              [(ngModel)]="bookToBeEdit.noOfCopies"></td>
+        </tr> -->
+
+        <tr>
+          <th colspan="2"><button (click)="updateDvd()" class="btn btn-warning">Update</button>
+            &nbsp; <button (click)=hide() class="btn btn-light">Hide</button></th>
+
+        </tr>
+
+      </table>
+
+
+      <tab tabTitle="Return DVD/CD">
+       
+        <div>User Id:&nbsp;<input type="text" id="userId" name="userId" required #userId="ngModel" [(ngModel)]="returnDetails.userId">
+          &nbsp;
+          <button class="btn btn-info" type="button" (click)="getDvds()">Get Dvds</button>
+        </div>
+
+
+        <div >
+          <table class="table">
+              <tr>
+                  <th>Index</th>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Publication</th>
+                  <th>Action</th>
+      
+                </tr>
+            <tr *ngFor="let dvdList of dvdsIssued;let i=index">
+                <td>{{i+1}}</td>
+                <td>{{dvdList.id}}</td>
+                <td>{{dvdList.title}}</td>
+                <td>{{dvdList.author}}</td>
+                <td>{{dvdList.publication}}</td>
+                <td><button type="button" (click)="dvdReturn(dvdList)">Return</button></td>
+                
+            </tr>
+            
+          </table>
+        </div>
+
+
+
+
+
+      </tab>
+
+      <tab tabTitle="Add DVD/CD">
+
+        <form (ngSubmit)="onSubmitDvd()" #dvdForm="ngForm">
+          <table>
+
+            <tr>
+              <th>Author</th>
+              <td><input type="text" id="author" maxlength="20" name="author" #author="ngModel"
+                  [(ngModel)]="dvdCd.author" class="form-control" required></td>
+            </tr>
+
+            <tr>
+              <th>Title</th>
+              <td><input type="text" id="title" maxlength="30" name="title" #title="ngModel" [(ngModel)]="dvdCd.title"
+                  class="form-control" required></td>
+            </tr>
+
+            <tr>
+              <th>Publication</th>
+              <td><input type="text" id="publication" maxlength="20" name="publication" #publication="ngModel"
+                  [(ngModel)]="dvdCd.publication" class="form-control" required></td>
+            </tr>
+
+            <!-- <tr>
+              <th>No Of Copies</th>
+              <td><input type="number" min="1" id="noOfCopies" name="noOfCopies" #noOfCopies="ngModel"
+                  [(ngModel)]="dvdCd.noOfCopies" class="form-control" required></td>
+            </tr> -->
+
+          </table>
+          <button class="btn btn-info" type="submit" [disabled]="!dvdForm.form.valid">Add DVD</button>
+
+        </form>
+
+      </tab>
+    </tabs>
+
+
+  </tab>
+
+
+
+
+
+  <tab tabTitle="Magazines">
+    <h3 align="center">MAGAZINE SECTION</h3>
+
+    <tabs>
+      <tab tabTitle="Show Magazines">
+        <table class="table">
+          <tr>
+            <th>Index</th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publication</th>
+            <!-- <th>No of Copies</th> -->
+            <th colspan="2">Action</th>
+
+
+          <tr *ngFor="let magzineList of magzines;let i=index">
+              <ng-container *ngIf="magzineList.isIssued==false">
+                <td>{{i+1}}</td>
+            <td>{{magzineList.id}}</td>
+            <td>{{magzineList.title}}</td>
+            <td>{{magzineList.author}}</td>
+            <td>{{magzineList.publication}}</td>
+            <!-- <td>{{magzineList.noOfCopies}}</td> -->
+            <td><button (click)="editMagzine(magzineList)" class="btn btn-info">Edit</button></td>
+            <td><button (click)="deleteMagzine(magzineList.id)" class="btn btn-danger">Delete</button></td>
+            <td><button (click)="issue(magzineList)" class="btn btn-primary">Issue</button></td>
+              </ng-container>
+          </tr>
+
+        </table>
+        <button (click)="refresh()">Refresh</button>
+
+      </tab>
+
+      <table border="2" hidden id="editingMagzine" class="table">
+        <tr>
+          <th>Title</th>
+          <td><input type="text" value="{{magzineToBeEdit.title}}" name="title" #title="ngModel"
+              [(ngModel)]="magzineToBeEdit.title"></td>
+        </tr>
+
+        <tr>
+          <th>Publication</th>
+          <td><input type="text" value="{{magzineToBeEdit.publication}}" name="publication" #publication="ngModel"
+              [(ngModel)]="magzineToBeEdit.publication"></td>
+        </tr>
+
+        <!-- <tr>
+          <th>No Of Copies</th>
+          <td><input type="number" min="1" value="{{magzineToBeEdit.noOfCopies}}" name="noOfCopies"
+              #noOfCopies="ngModel" [(ngModel)]="magzineToBeEdit.noOfCopies"></td>
+        </tr> -->
+
+        <tr>
+          <th colspan="2"><button (click)="updateMagzine()" class="btn btn-warning">Update</button>
+            &nbsp; <button (click)=hide() class="btn btn-light">Hide</button></th>
+
+        </tr>
+
+      </table>
+
+      <tab tabTitle="Return Magazine">
+        
+          <div>User Id:&nbsp;<input type="text" id="userId" name="userId" required #userId="ngModel" [(ngModel)]="returnDetails.userId">
+            &nbsp;
+            <button class="btn btn-info" type="button" (click)="getMagzines()">Get Dvds</button>
+          </div>
+  
+  
+          <div >
+            <table class="table">
+                <tr>
+                  <th>Index</th>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publication</th>
+                    <th>Action</th>
+        
+                  </tr>
+              <tr *ngFor="let magList of magzinesIssued;let i=index">
+                  <td>{{i+1}}</td>
+                  <td>{{magList.id}}</td>
+                  <td>{{magList.title}}</td>
+                  <td>{{magList.author}}</td>
+                  <td>{{magList.publication}}</td>
+                  <td><button type="button" (click)="magReturn(magList)">Return</button></td>
+                  
+              </tr>
+              
+            </table>
+          </div>
+
+      </tab>
+
+
+      <tab tabTitle="Add Magzine">
+
+        <form (ngSubmit)="onSubmitMag()" #magForm="ngForm">
+          <table>
+            <tr>
+              <th>Title</th>
+              <td><input type="text" id="title" maxlength="30" name="title" #title="ngModel" [(ngModel)]="magzine.title"
+                  class="form-control" required></td>
+            </tr>
+
+
+            <tr>
+                <th>Author</th>
+                <td><input type="text" id="author" maxlength="20" name="author" #author="ngModel"
+                    [(ngModel)]="magzine.author" class="form-control" required></td>
+              </tr>
+
+            <tr>
+              <th>Publication</th>
+              <td><input type="text" id="publication" maxlength="20" name="publication" #publication="ngModel"
+                  [(ngModel)]="magzine.publication" class="form-control" required></td>
+            </tr>
+
+            <!-- <tr>
+              <th>No Of Copies</th>
+              <td><input type="number" min="1" id="noOfCopies" name="noOfCopies" #noOfCopies="ngModel"
+                  [(ngModel)]="magzine.noOfCopies" class="form-control" required></td>
+            </tr> -->
+
+          </table>
+          <button class="btn btn-info" type="submit" [disabled]="!magForm.form.valid">Add Magzine</button>
+
+        </form>
+
+      </tab>
+
+    </tabs>
+
+
+
+  </tab>
+
+
+</tabs>

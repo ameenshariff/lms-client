@@ -1,0 +1,56 @@
+<nav class="jumbotron">
+    <button  (click)="logOut()">Logout</button>
+  <h1 align="center">Library Management</h1>
+  
+</nav>
+<div >
+  <h3>Search Library</h3>
+
+  <div>Select Category
+    <select (change)="onChange($event)">
+      <option value="select">Select</option>
+      <option value="Books">Books</option>
+      <option value="DVD">DVD/CD</option>
+      <option value="Magzines">Magzines</option>
+    </select>
+  </div>
+  <br><br>
+
+  <div>Search Filter
+    <select (change)="onSelect($event)">
+      <option value="select">Select</option>
+      <option value="Title">By Title</option>
+      <option value="Author">By Author</option>
+    </select>
+    &nbsp;&nbsp;
+    <input type="search" placeholder="Enter Search" #search> &nbsp;
+    <input type="button" value="Search" (click)="Searchlibrary(search.value)">
+  </div>
+
+  <div>
+    <table class="table">
+      <tr>
+        <th>ISBN</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Publication</th>
+        <th>Status</th>
+
+      </tr>
+
+      <tr *ngFor="let booksList of bookSearch;let i=index">
+        <!-- <ng-container *ngIf="bookList.isIssued==false"> -->
+          <td>{{booksList.id}}</td>
+          <td>{{booksList.title}}</td>
+          <td>{{booksList.author}}</td>
+          <td>{{booksList.publication}}</td>
+
+           <div *ngIf="booksList.isIssued==true">
+            <td class="issued">Book Issued</td>
+           </div>
+          
+      </tr>
+    </table>
+  </div>
+
+</div>

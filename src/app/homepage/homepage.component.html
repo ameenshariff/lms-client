@@ -1,0 +1,47 @@
+<!-- <div class="container">
+  <h1 align="center"> WELCOME TO LIBRARY MANAGEMENT</h1>
+  <div class="form-group">
+      <label>
+          <h2>Login</h2>
+      </label><br />
+      <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="log" value="forward"  [(ngModel)]="login.log"
+              #log="ngModel">Admin
+      </div>
+      <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="log" value="close"  [(ngModel)]="login.log"
+              #log="ngModel">User
+      </div>
+      <div *ngIf="login.log == 'forward'">
+          <div>
+              <label>Username</label>
+              <input type="text" name="username" [(ngModel)]="username">
+          </div>
+              <div>
+                  <label>Password</label>
+                  <input type="password" name="password" [(ngModel)]="password">
+              </div>
+          <button (click)=checkLogin() class="btn btn-info">Submit</button>
+      </div>
+      <div *ngIf="login.log == 'close'">
+          <div>
+              <label>Username</label>
+              <input type="text" name="username" [(ngModel)]="username">
+          </div>
+              <div>
+                  <label>Password</label>
+                  <input type="password" name="password" [(ngModel)]="password">
+              </div>
+          <button (click)=checkLoginTech() class="btn btn-info">Submit</button>
+      </div>
+  </div>
+  </div> -->
+
+<div class="jumbotron">
+
+    <h2>Welcome to Library Management System</h2>
+
+  <button class="btn btn-info" value="User" (click)="userPage()">Login as User</button>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <button class="btn btn-info" (click)="adminPage()" value="Admin">Login as Admin</button>
+</div>
