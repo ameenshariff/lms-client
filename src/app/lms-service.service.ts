@@ -100,7 +100,7 @@ export class LmsServiceService {
   
   
 
-  private baseUrl = 'https://library-management-system1.herokuapp.com';
+  private baseUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) { }
 
